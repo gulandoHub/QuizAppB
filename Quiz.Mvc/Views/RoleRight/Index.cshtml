@@ -1,0 +1,37 @@
+@model IEnumerable<QuizMvc.Models.RoleRightData>
+
+@{
+    ViewData["Title"] = "UserRights";
+    Layout = "_Layout";
+}
+
+<table class="table table-sm table-striped">
+    <thead>
+    <tr><th>Role Name</th><th>Right Name</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var roleRight in Model) {
+        <tr>
+            <td>@roleRight.RoleName</td>
+            <td>@roleRight.RightName</td>
+            <td>
+                <form asp-action="Delete" method="post">
+                    <a asp-action="Edit"
+                       class="btn btn-sm btn-warning" asp-route-id="@roleRight.ID">
+                        Edit
+                    </a>
+                    <input type="hidden" name="id" value="@roleRight.ID" />
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Create New RoleRight</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Go To Home</a>
+</div>

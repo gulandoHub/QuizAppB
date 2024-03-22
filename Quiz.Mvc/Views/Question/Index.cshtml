@@ -1,0 +1,38 @@
+@model IEnumerable<QuizData.QuestionSummary>
+@{
+    ViewData["Title"] = "Questions";
+    Layout = "_Layout";
+}
+<table class="table table-sm table-striped">
+    <thead>
+    <tr><th>Question No</th><th>Quiz Name</th><th>Quiz Theme Name</th><th>Question Type Name</th><th>Answer Type Name</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var question in Model) {
+        <tr>
+            <td>@question.QuestionNo</td>
+            <td>@question.QuizName</td>
+            <td>@question.QuizThemeName</td>
+            <td>@question.QuestionTypeName</td>
+            <td>@question.AnswerTypeName</td>
+            <td>
+                <form asp-action="Delete" method="post">
+                    <a asp-action="Edit"
+                       class="btn btn-sm btn-warning" asp-route-id="@question.ID">
+                        Edit
+                    </a>
+                    <input type="hidden" name="id" value="@question.ID" />
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Create New Question</a>
+    <a asp-controller="Question" asp-action="Index" class="btn btn-primary">Go To Home</a>
+</div>

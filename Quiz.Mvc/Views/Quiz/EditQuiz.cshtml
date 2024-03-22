@@ -1,0 +1,22 @@
+@model QuizData.Quiz
+@{
+    ViewData["Title"] = ViewBag.CreateMode ? "Create" : "Edit";
+    Layout = "_Layout";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+
+<form asp-action="@(ViewBag.CreateMode ? "Create" : "Edit")" method="post">
+    
+    <div class="form-group">
+        <div><span asp-validation-for="QuizName" class="text-danger"></span></div>
+        <label asp-for="QuizName"></label>
+        <input asp-for="QuizName" class="form-control"/>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>

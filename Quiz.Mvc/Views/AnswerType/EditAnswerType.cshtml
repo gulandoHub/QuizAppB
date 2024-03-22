@@ -1,0 +1,70 @@
+@using System.Collections
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model QuizMvc.Models.AnswerTypeData
+
+@{
+    ViewData["Title"] = ViewBag.CreateMode ? "Create" : "Edit";
+    Layout = "_Layout";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+
+<script language="javascript" type="text/javascript">
+ 
+    function quizNameChange() {
+        var quizID = window.$('#QuizName').val();
+        window.$("#QuestionTypeName").empty();
+        window.$.ajax({
+            url: '/Quiz/GetQuizSummary',
+            type: "GET",
+            dataType: "JSON",
+            data: { QuizID: quizID, QuestionTypeID: 0 },
+            success: function (response) {
+                console.log(response);
+                window.$.each(response, function (index, item) {
+                    if (window.$("#QuestionTypeName option:contains('" + item.questionTypeName + "')").length === 0)
+                    {
+                        window.$("#QuestionTypeName").append(window.$('<option/>', {
+                            value: item.questionTypeID,
+                            text: item.questionTypeName
+                        }));
+                    }
+                });
+            }
+        });
+    }
+    
+</script>
+
+@using (Html.BeginForm(ViewBag.CreateMode ? "Create" : "Edit", "AnswerType"))
+{
+    <div class="form-group">
+        
+        <div>@Html.ValidationMessageFor(x => x.QuizID, "", new { @class = "text-danger" })</div>
+        <label for="sel1">Quiz Name</label>
+        @Html.DropDownListFor(x => Model.QuizID, new SelectList((IEnumerable) ViewData["Quizes"], "ID", "QuizName"), "--Select One--", new {@class = "form-control", onchange = "quizNameChange()", @id = "QuizName"})
+
+        <br/>
+        
+        <div>@Html.ValidationMessageFor(x => x.QuestionTypeID, "", new { @class = "text-danger" })</div>
+        <label for="sel1">Question Type Name</label>
+        @Html.DropDownListFor(x => Model.QuestionTypeID, new SelectList((IEnumerable) ViewData["QuestionTypes"], "ID", "QuestionTypeName"), "--Select One--", new {@class = "form-control", @id = "QuestionTypeName"})
+
+        <br/>
+
+        <div><span asp-validation-for="AnswerTypeName" class="text-danger"></span></div>
+        <label for="sel1">Answer Type Name</label>
+        <input asp-for="AnswerTypeName" class="form-control"/>
+        
+        <input asp-for="AnswerTypeDescription" class="form-control" hidden="true" />
+    </div>
+    
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+}
+
+

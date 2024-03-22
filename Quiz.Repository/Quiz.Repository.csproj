@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <RootNamespace>QuizRepository</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />
+        <PackageReference Include="NEST" Version="6.5.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Quiz.Data\Quiz.Data.csproj" />
+    </ItemGroup>
+    
+</Project>

@@ -1,0 +1,35 @@
+@using System.Collections
+@model QuizMvc.Models.UserRightData
+
+
+@{
+    ViewData["Title"] = ViewBag.CreateMode ? "Create" : "Edit";
+    Layout = "_Layout";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.js")"></script>
+<script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")"></script>
+
+
+<form asp-action="@(ViewBag.CreateMode ? "Create" : "Edit")" method="post">
+    
+    <div class="form-group">
+
+        <div>@Html.ValidationMessageFor(x => x.UserID, "", new {@class = "text-danger"})</div>
+        <label for="sel1">Select User Name</label>
+        @Html.DropDownListFor(x => Model.UserID, new SelectList((IEnumerable) ViewData["Users"], "ID", "Username"), "--Select One--", new {@class = "form-control", @id = "UserID"})
+
+        <br/>
+
+        <div>@Html.ValidationMessageFor(x => x.RightID, "", new {@class = "text-danger"})</div>
+        <label for="sel1">Select Right Name</label>
+        @Html.DropDownListFor(x => Model.RightID, new SelectList((IEnumerable) ViewData["Rights"], "ID", "Name"), "--Select One--", new {@class = "form-control", @id = "RightID"})
+    </div>
+    
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+    
+</form>

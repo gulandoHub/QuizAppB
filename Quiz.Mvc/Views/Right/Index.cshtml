@@ -1,0 +1,35 @@
+@model IEnumerable<QuizData.Right>
+@{
+    ViewData["Title"] = "Rights";
+    Layout = "_Layout";
+}
+<table class="table table-sm table-striped">
+    <thead>
+    <tr><th>Right Name</th><th>Right Description</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var right in Model) {
+        <tr>
+            <td>@right.Name</td>
+            <td>@right.Description</td>
+            <td>
+                <form asp-action="Delete" method="post">
+                    <a asp-action="Edit"
+                       class="btn btn-sm btn-warning" asp-route-id="@right.ID">
+                        Edit
+                    </a>
+                    <input type="hidden" name="id" value="@right.ID" />
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Create New Right</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Go To Home</a>
+</div>

@@ -1,0 +1,93 @@
+@model AnswerTypeConfigurationSummary
+@using QuizData
+
+
+<script language="javascript" type="text/javascript">
+
+    var data = new Array();
+    var correctAnswer = "";
+
+    function checkBoxChanged() {
+        correctAnswer = "";
+        for (var j = 1; j <= @Model.AnswerTypeConfiguration.Count * @Model.AnswerTypeConfiguration.RowCount; j++) {
+            var ischecked = window.$('#Check' + j).is(":checked");
+            if (ischecked) {
+                correctAnswer += ',' + j.toString();
+            }
+        }
+    }
+
+    function textBoxChanged() {
+        correctAnswer = "";
+        correctAnswer = window.$('#textbox').val();
+    }
+
+
+</script>
+
+
+<div>
+    <label>Check Correct Answer(s)</label>
+    <br />
+
+    @{
+        var answerTypeConfiguration = Model.AnswerTypeConfiguration;
+        var correctAnswer = Model.CorrectAnswer;
+        int[] correctAnswerIDs = new int[100];
+
+        if (Model != null && answerTypeConfiguration != null)
+        {
+            if (!string.IsNullOrEmpty(correctAnswer))
+            {
+                correctAnswerIDs = correctAnswer.Split(",").Select(n => Convert.ToInt32(n)).ToArray();
+            }
+
+
+            switch (answerTypeConfiguration.Type)
+            {
+                case RenderType.CheckBox:
+                    int k = 1;
+                    for (int i = 1; i <= answerTypeConfiguration.RowCount; i++)
+                    {
+                        for (int j = 1; j <= answerTypeConfiguration.Count; j++)
+                        {
+                            if (correctAnswerIDs.Contains(k))
+                            {
+                                @Html.CheckBox("Check" + k, true, new { onchange = "checkBoxChanged()" })
+                            }
+                            else
+                            {
+                                @Html.CheckBox("Check" + k, false, new { onchange = "checkBoxChanged()" })
+                            }
+
+                            @Html.Label(k.ToString(), k.ToString(), new { Style = "margin-right: 65px; " })
+                            k += 1;
+                        }
+                        <br />
+                    }
+                    break;
+                case RenderType.Input:
+                    for (int i = 1; i <= answerTypeConfiguration.Count; i++)
+                    {
+                        if (!string.IsNullOrEmpty(correctAnswer))
+                        {
+                            @Html.TextBox("Input" + i, correctAnswer, new { id = "textbox", onchange = "textBoxChanged()", type = "numeric" })
+                        }
+                        else
+                        {
+                            @Html.TextBox("Input" + i, "", new { id = "textbox", onchange = "textBoxChanged()",  type = "numeric"})
+                        }
+                    }
+                    break;
+                case RenderType.RadioGroup:
+                case RenderType.None:
+                    break;
+            }
+        }
+        else
+        {
+            @Html.CheckBox("Check" + 0, false)
+        }
+    }
+
+</div>

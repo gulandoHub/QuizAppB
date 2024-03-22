@@ -1,0 +1,24 @@
+﻿@model IEnumerable<QuizMvc.Models.QuizThemeData>
+
+@{
+    ViewData["Title"] = "Quiz Themes";
+    Layout = "_Layout";
+}
+
+<table class="table table-sm table-striped">
+    <tbody>
+    @foreach (var quizTheme in Model)
+    {
+        <tr>
+            <td>
+                <a asp-action="ShowQuestions" asp-route-id="@quizTheme.ID"> @quizTheme.QuizThemeName</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Create New Question</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Go To Home</a>
+</div>
